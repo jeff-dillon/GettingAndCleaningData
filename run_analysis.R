@@ -68,6 +68,9 @@ LoadDataSet <- function(setLabel) {
     names(observations) <- features$ColName
     observations$ObsID <-seq.int(nrow(observations))
     observations$set <- c(setLabel)
+    names(observations) <- gsub(x = names(observations), pattern = "mean\\(\\)", replacement = "Mean")
+    names(observations) <- gsub(x = names(observations), pattern = "std\\(\\)", replacement = "Standard_deviation")
+    names(observations) <- gsub(x = names(observations), pattern = "\\-", replacement = "")
     
     # load the activities, set the column names, add an ID column for merging, 
     # add a column with the label of the activity code.
@@ -104,7 +107,7 @@ LoadDataSet <- function(setLabel) {
     select(cleanData, 
            "subject", 
            "activityLabel", 
-           grep("mean\\(|std", 
+           grep("Mean[XYZ]|Standard_deviation[XYZ]", 
                 names(observations), 
                 value = TRUE))
     
